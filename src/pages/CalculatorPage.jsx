@@ -18,11 +18,11 @@ export default function CalculatorPage() {
   const {
     control,
     handleSubmit,
-    formState: { isSubmitting, isValid, errors },
+    formState: { isSubmitting, isValid },
     setValue,
     getValues,
     watch,
-    trigger,
+    reset
   } = useForm({
     defaultValues: {
       endDate: null,
@@ -54,13 +54,8 @@ export default function CalculatorPage() {
   }
 
   function resetForm() {
-    setValue("endDate", null);
-    setValue("firstPaymentDate", null);
-    setValue("initialDate", null);
-    setValue("interestRate", "");
-    setValue("loanAmount", "");
     setTableData(null);
-    trigger();
+    reset();
   }
   function onSubmit(data) {
     let filteredData = formatLoanDetails(data);
@@ -94,7 +89,7 @@ export default function CalculatorPage() {
           <IconButton
             sx={{ padding: "0", marginLeft: ".5rem" }}
             onClick={exportToExcel}
-          >
+          > 
             <Tooltip title="Clique para baixar a planilha">
               <img
                 src={ExportIcon}
