@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+// import { ToastProvider } from "use-toast-mui";
+
+import "./App.css";
+import { ptBR } from "date-fns/locale";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { light } from "./themes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { CalculatorPage } from "./pages";
+
+const queryClient = new QueryClient();
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <React.StrictMode>
+      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+        <ThemeProvider theme={light}>
+          {/* <ToastProvider> */}
+            <CssBaseline />
+            <QueryClientProvider client={queryClient}>
+              <CalculatorPage />
+            </QueryClientProvider>
+          {/* </ToastProvider> */}
+        </ThemeProvider>
+      </LocalizationProvider>
+    </React.StrictMode>
+  );
 }
 
-export default App
+export default App;
