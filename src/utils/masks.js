@@ -8,8 +8,6 @@ export const moneyMask = createNumberMask({
     allowDecimal: true,
 });
 
-
-
 export const percentageMask = createNumberMask({
     prefix: "",
     suffix: " %",
@@ -19,3 +17,8 @@ export const percentageMask = createNumberMask({
     integerLimit: 4, // Allows up to 1000
     requireDecimal: false,
 });
+
+export function toBRLMoney(value) {
+    const numberValue = parseFloat(value);
+    return numberValue.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
