@@ -9,6 +9,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { light } from "./themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CalculatorPage } from "./pages";
+import Footer from "./components/Footer";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ function App() {
             <CssBaseline />
             <QueryClientProvider client={queryClient}>
               <CalculatorPage />
+              <Footer />
             </QueryClientProvider>
           {/* </ToastProvider> */}
         </ThemeProvider>

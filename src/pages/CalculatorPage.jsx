@@ -7,23 +7,34 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { FormDatePicker, FormMaskedTextField } from "../components";
+import { FormDatePicker, FormMaskedTextField, TableLoan } from "../components";
 import { useForm } from "react-hook-form";
 import { moneyMask, percentageMask } from "../utils/masks";
 import ExportIcon from "../assets/export.svg";
 import { stringToDate } from "../utils";
+import { useState } from "react";
 
 export default function CalculatorPage() {
   const {
     control,
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, errors },
     setValue,
     getValues,
     watch,
-  } = useForm();
+    trigger,
+  } = useForm({
+    defaultValues: {
+      endDate: null,
+      firstPaymentDate: null,
+      initialDate: null,
+      interestRate: "",
+      loanAmount: "",
+    },
+    mode: "onChange",
+  });
 
-  let calculated = false;
+  const [tableData, setTableData] = useState(null);
 
   let initialDate = watch("initialDate");
   let endDate = watch("endDate");
@@ -33,15 +44,28 @@ export default function CalculatorPage() {
       endDate: stringToDate(data.endDate),
       firstPaymentDate: stringToDate(data.firstPaymentDate),
       initialDate: stringToDate(data.initialDate),
-      interestRate: parseFloat(data.interestRate.replace(" %", "").replace(",", ".")),
-      loanAmount: parseFloat(data.loanAmount.replace("R$ ", "").replace(".", "").replace(",", ".")
-      ), 
+      interestRate: parseFloat(
+        data.interestRate.replace(" %", "").replace(",", ".")
+      ),
+      loanAmount: parseFloat(
+        data.loanAmount.replace("R$ ", "").replace(".", "").replace(",", ".")
+      ),
     };
   }
 
+  function resetForm() {
+    setValue("endDate", null);
+    setValue("firstPaymentDate", null);
+    setValue("initialDate", null);
+    setValue("interestRate", "");
+    setValue("loanAmount", "");
+    setTableData(null);
+    trigger();
+  }
   function onSubmit(data) {
     let filteredData = formatLoanDetails(data);
     console.log(filteredData);
+    setTableData(true);
   }
   function exportToExcel(data) {
     let filteredData = formatLoanDetails(data);
@@ -49,14 +73,40 @@ export default function CalculatorPage() {
   }
 
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-      <Toolbar sx={{ marginBottom: 3 }}>
-        <Typography sx={{ fontWeight: 500 }} variant="h5">
+    <Box
+      sx={{ padding: 2, maxWidth: "1280px", margin: "0 auto", height: "auto" }}
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography
+          sx={{
+            fontWeight: 600,
+            textAlign: "left",
+            marginTop: 2,
+          }}
+          color={"secondary.main"}
+          variant="h5"
+        >
           Calculadora de Empréstimos
         </Typography>
-      </Toolbar>
-
-      <Grid container spacing={1}>
+        {tableData && (
+          <IconButton
+            sx={{ padding: "0", marginLeft: ".5rem" }}
+            onClick={exportToExcel}
+          >
+            <Tooltip title="Clique para baixar a planilha">
+              <img
+                src={ExportIcon}
+                className="icon__button"
+                alt="Clique para baixar a planilha"
+              />
+            </Tooltip>
+          </IconButton>
+        )}
+      </Box>
+      <hr style={{ marginBottom: "2rem", opacity: 0.3 }} />
+      <Grid container spacing={1} sx={{ marginBottom: 3 }}>
         <Grid item xs={12} md={2}>
           <FormDatePicker
             name="initialDate"
@@ -118,28 +168,27 @@ export default function CalculatorPage() {
             rules={{ required: true }}
           />
         </Grid>
-        <Grid item xs={12} md={2}>
+        <Grid container justifyContent="space-between" item xs={12} md={2}>
+          {tableData && (
+            <Button
+              sx={{ width: "48%", paddingY: "8px" }}
+              variant="outlined"
+              onClick={resetForm}
+            >
+              Limpar
+            </Button>
+          )}
           <Button
-            sx={{ width: calculated ? "50%" : "100%", paddingY: "8px" }}
+            sx={{ width: tableData ? "48%" : "100%", paddingY: "8px" }}
             type="submit"
             variant="contained"
             disabled={!isValid || isSubmitting}
           >
             Calcular
           </Button>
-          {calculated ?? (
-            <IconButton onClick={exportToExcel}>
-              <Tooltip title="Clique para baixar a planilha">
-                <img
-                  src={ExportIcon}
-                  className="logo"
-                  alt="Clique para exportar a planilha"
-                />
-              </Tooltip>
-            </IconButton>
-          )}
         </Grid>
       </Grid>
+      {tableData && <TableLoan></TableLoan>}
     </Box>
 
     // <h1>Hello World</h1>
