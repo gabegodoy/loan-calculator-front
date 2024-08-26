@@ -1,10 +1,13 @@
 {
   "name": "loan-calculator",
+  "homepage": "https://gabegodoy.github.io/loan-calculator-front/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "predeploy": "vite build",
+    "deploy": "gh-pages -d dist",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -18,6 +21,7 @@
     "axios": "^1.7.5",
     "date-fns": "2.29.2",
     "exceljs": "^4.4.0",
+    "gh-pages": "^6.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
