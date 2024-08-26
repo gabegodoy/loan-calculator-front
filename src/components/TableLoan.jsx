@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   Paper,
   Table,
@@ -12,7 +13,7 @@ import React from "react";
 import { toBRLMoney } from "../utils/masks";
 import { formatDate } from "../utils/dateHelper";
 
-export default function TableLoan() {
+export default function TableLoan({ data }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -34,289 +35,8 @@ export default function TableLoan() {
     { id: "amortization", label: "Amortização", format: (value) => toBRLMoney(value) },
     { id: "balance", label: "Saldo", format: (value) => toBRLMoney(value) },
     { id: "provision", label: "Provisão", format: (value) => toBRLMoney(value) },
-    { id: "acumulated", label: "Acumulado", format: (value) => toBRLMoney(value) },
+    { id: "accumulated", label: "Acumulado", format: (value) => toBRLMoney(value) },
     { id: "paid", label: "Pago", format: (value) => toBRLMoney(value) },
-  ];
-
-  function createData(
-    date,
-    loanAmount,
-    outstandingBalance,
-    consolidated,
-    total,
-    amortization,
-    balance,
-    provision,
-    acumulated,
-    paid
-  ) {
-    return {
-      date,
-      loanAmount,
-      outstandingBalance,
-      consolidated,
-      total,
-      amortization,
-      balance,
-      provision,
-      acumulated,
-      paid,
-    };
-  }
-
-  const rows = [
-    createData(
-      "2024-01-01",
-      "140000.00",
-      "140000.00",
-      "",
-      "0.00",
-      "0.00",
-      "140000.00",
-      "0.00",
-      "0.00",
-      "0.00"
-    ),
-    createData(
-      "2024-01-31",
-      "0.00",
-      "140791.58",
-      "",
-      "0.00",
-      "0.00",
-      "140000.00",
-      "791.58",
-      "791.58",
-      "0.00"
-    ),
-    createData(
-      "2024-02-15",
-      "0.00",
-      "138833.33",
-      "1/120",
-      "2355.71",
-      "1166.67",
-      "138833.33",
-      "397.47",
-      "0.00",
-      "1189.05"
-    ),
-    createData(
-      "2024-02-29",
-      "0.00",
-      "139199.11",
-      "",
-      "0.00",
-      "0.00",
-      "138833.33",
-      "365.78",
-      "365.78",
-      "0.00"
-    ),
-    createData(
-      "2024-03-15",
-      "0.00",
-      "137666.67",
-      "2/120",
-      "1925.41",
-      "1166.67",
-      "137666.67",
-      "392.97",
-      "0.00",
-      "758.75"
-    ),
-    createData(
-      "2024-03-31",
-      "0.00",
-      "138081.26",
-      "",
-      "0.00",
-      "0.00",
-      "137666.67",
-      "414.59",
-      "414.59",
-      "0.00"
-    ),
-    createData(
-      "2024-04-15",
-      "0.00",
-      "136500.00",
-      "3/120",
-      "1971.08",
-      "1166.67",
-      "136500.00",
-      "389.82",
-      "0.00",
-      "804.41"
-    ),
-    createData(
-      "2024-04-30",
-      "0.00",
-      "136885.35",
-      "",
-      "0.00",
-      "0.00",
-      "136500.00",
-      "385.35",
-      "385.35",
-      "0.00"
-    ),
-    createData(
-      "2024-05-15",
-      "0.00",
-      "135333.33",
-      "4/120",
-      "1938.46",
-      "1166.67",
-      "135333.33",
-      "386.44",
-      "0.00",
-      "771.79"
-    ),
-    createData(
-      "2024-05-31",
-      "0.00",
-      "135740.90",
-      "",
-      "0.00",
-      "0.00",
-      "135333.33",
-      "407.57",
-      "407.57",
-      "0.00"
-    ),
-    createData(
-      "2024-06-17",
-      "0.00",
-      "134166.67",
-      "5/120",
-      "2008.62",
-      "1166.67",
-      "134166.67",
-      "434.38",
-      "0.00",
-      "841.95"
-    ),
-    createData(
-      "2024-06-30",
-      "0.00",
-      "134494.87",
-      "",
-      "0.00",
-      "0.00",
-      "134166.67",
-      "328.20",
-      "328.20",
-      "0.00"
-    ),
-    createData(
-      "2024-01-01",
-      "140000.00",
-      "140000.00",
-      "",
-      "0.00",
-      "0.00",
-      "140000.00",
-      "0.00",
-      "0.00",
-      "0.00"
-    ),
-    createData(
-      "2024-01-31",
-      "0.00",
-      "140791.58",
-      "",
-      "0.00",
-      "0.00",
-      "140000.00",
-      "791.58",
-      "791.58",
-      "0.00"
-    ),
-    createData(
-      "2024-02-15",
-      "0.00",
-      "138833.33",
-      "1/120",
-      "2355.71",
-      "1166.67",
-      "138833.33",
-      "397.47",
-      "0.00",
-      "1189.05"
-    ),
-    createData(
-      "2024-02-29",
-      "0.00",
-      "139199.11",
-      "",
-      "0.00",
-      "0.00",
-      "138833.33",
-      "365.78",
-      "365.78",
-      "0.00"
-    ),
-    createData(
-      "2024-03-15",
-      "0.00",
-      "137666.67",
-      "2/120",
-      "1925.41",
-      "1166.67",
-      "137666.67",
-      "392.97",
-      "0.00",
-      "758.75"
-    ),
-    createData(
-      "2024-03-31",
-      "0.00",
-      "138081.26",
-      "",
-      "0.00",
-      "0.00",
-      "137666.67",
-      "414.59",
-      "414.59",
-      "0.00"
-    ),
-    createData(
-      "2024-04-15",
-      "0.00",
-      "136500.00",
-      "3/120",
-      "1971.08",
-      "1166.67",
-      "136500.00",
-      "389.82",
-      "0.00",
-      "804.41"
-    ),
-    createData(
-      "2024-04-30",
-      "0.00",
-      "136885.35",
-      "",
-      "0.00",
-      "0.00",
-      "136500.00",
-      "385.35",
-      "385.35",
-      "0.00"
-    ),
-    createData(
-      "2024-05-15",
-      "0.00",
-      "135333.33",
-      "4/120",
-      "1938.46",
-      "1166.67",
-      "135333.33",
-      "386.44",
-      "0.00",
-      "771.79"
-    ),
   ];
 
   return (
@@ -352,7 +72,7 @@ export default function TableLoan() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {data
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
@@ -385,7 +105,7 @@ export default function TableLoan() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={data.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

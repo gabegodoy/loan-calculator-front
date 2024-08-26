@@ -3,26 +3,28 @@ import {
   Button,
   Grid,
   IconButton,
-  Toolbar,
   Tooltip,
   Typography,
 } from "@mui/material";
 import { FormDatePicker, FormMaskedTextField, TableLoan } from "../components";
 import { useForm } from "react-hook-form";
-import { moneyMask, percentageMask } from "../utils/masks";
+import { moneyMask, percentageMask, toBRLMoney } from "../utils/masks";
 import ExportIcon from "../assets/export.svg";
 import { stringToDate } from "../utils";
 import { useState } from "react";
+import { useAxios } from "../hooks/index";
+import { useMutation } from "@tanstack/react-query";
+import { calculateLoan } from "../services/loan";
+import { exportToXlsx } from "../utils/exportToXlsx";
+import { formatDate } from "../utils/dateHelper";
 
 export default function CalculatorPage() {
   const {
     control,
     handleSubmit,
     formState: { isSubmitting, isValid },
-    setValue,
-    getValues,
     watch,
-    reset
+    reset,
   } = useForm({
     defaultValues: {
       endDate: null,
@@ -57,14 +59,53 @@ export default function CalculatorPage() {
     setTableData(null);
     reset();
   }
+  const { axios } = useAxios();
+  const mutation = useMutation({
+    mutationFn: (filteredData) => calculateLoan(axios, filteredData),
+    onSuccess: (data) => {
+      setTableData(data);
+    },
+    onError: (err) => {
+      console.error("Erro ao tentar calcular o empréstimo:", err);
+    },
+  });
+
   function onSubmit(data) {
     let filteredData = formatLoanDetails(data);
-    console.log(filteredData);
-    setTableData(true);
+    mutation.mutate(filteredData);
   }
-  function exportToExcel(data) {
-    let filteredData = formatLoanDetails(data);
-    console.log("Exporting data to Excel:", filteredData);
+
+  function exportToExcel() {
+    let dataForExcel = [];
+    tableData
+      .map((data) => ({
+        date: formatDate(data.date),
+        loanAmount: toBRLMoney(data.loanAmount),
+        outstandingBalance: toBRLMoney(data.outstandingBalance),
+        consolidated: data.consolidated,
+        total: toBRLMoney(data.total),
+        amortization: toBRLMoney(data.amortization),
+        balance: toBRLMoney(data.balance),
+        provision: toBRLMoney(data.provision),
+        accumulated: toBRLMoney(data.accumulated),
+        paid: toBRLMoney(data.paid),
+      }))
+      .forEach((row) => dataForExcel.push(Object.values(row)));
+
+    let headers = [
+      "Data de Competência",
+      "Valor de Empréstimo",
+      "Saldo Devedor",
+      "Consolidada",
+      "Total",
+      "Amortização",
+      "Saldo",
+      "Provisão",
+      "Acumulado",
+      "Pago",
+    ];
+
+    exportToXlsx(dataForExcel, headers, "Cálculo empréstimo");
   }
 
   return (
@@ -89,7 +130,7 @@ export default function CalculatorPage() {
           <IconButton
             sx={{ padding: "0", marginLeft: ".5rem" }}
             onClick={exportToExcel}
-          > 
+          >
             <Tooltip title="Clique para baixar a planilha">
               <img
                 src={ExportIcon}
@@ -183,9 +224,7 @@ export default function CalculatorPage() {
           </Button>
         </Grid>
       </Grid>
-      {tableData && <TableLoan></TableLoan>}
+      {tableData && <TableLoan data={tableData}></TableLoan>}
     </Box>
-
-    // <h1>Hello World</h1>
   );
 }
