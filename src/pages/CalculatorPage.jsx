@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { moneyMask, percentageMask, toBRLMoney } from "../utils/masks";
 import ExportIcon from "../assets/export.svg";
 import { stringToDate } from "../utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAxios } from "../hooks/index";
 import { useMutation } from "@tanstack/react-query";
 import { calculateLoan } from "../services/loan";
@@ -107,6 +107,11 @@ export default function CalculatorPage() {
 
     exportToXlsx(dataForExcel, headers, "Cálculo empréstimo");
   }
+
+  // EASTER EGG
+  useEffect(() => {
+    console.log('%cOi! Procurando por Bugs? hahaha  \n%c🐛🐛🐛🐛🐛🐛🐛 Achoou! \n\nLinkedIn: https://www.linkedin.com/in/gabecgodoy/\nGitHub: https://github.com/gabegodoy', 'color: orange; font-size: 16px;', 'color: green; font-size: 14px;');
+  }, [])
 
   return (
     <Box

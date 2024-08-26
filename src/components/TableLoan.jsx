@@ -62,7 +62,7 @@ export default function TableLoan({ data }) {
               {columns.map((column) => (
                 <TableCell
                   sx={{ fontSize: ".8rem", textTransform: "capitalize", textAlign: "center", padding: ".25rem" }}
-                  key={column.id}
+                  key={column.label}
                   align={column.align}
                   style={{ top: 57, minWidth: column.minWidth }}
                 >

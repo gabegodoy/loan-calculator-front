@@ -1,7 +1,6 @@
 import React from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-// import { ToastProvider } from "use-toast-mui";
 
 import "./App.css";
 import { ptBR } from "date-fns/locale";
@@ -18,13 +17,11 @@ function App() {
     <React.StrictMode>
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
         <ThemeProvider theme={light}>
-          {/* <ToastProvider> */}
             <CssBaseline />
             <QueryClientProvider client={queryClient}>
               <CalculatorPage />
               <Footer />
             </QueryClientProvider>
-          {/* </ToastProvider> */}
         </ThemeProvider>
       </LocalizationProvider>
     </React.StrictMode>

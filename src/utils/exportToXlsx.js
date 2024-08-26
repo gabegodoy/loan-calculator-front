@@ -7,8 +7,6 @@ async function exportToXlsx(data, headers, fileName) {
     worksheet.addRow(headers);
 
     data.forEach((element) => {
-        console.log(data)
-        console.log(element)
         worksheet.addRow(element);
     });
 

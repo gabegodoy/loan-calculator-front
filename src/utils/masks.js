@@ -14,7 +14,7 @@ export const percentageMask = createNumberMask({
     thousandsSeparatorSymbol: ".",
     decimalSymbol: ",",
     allowDecimal: true,
-    integerLimit: 4, // Allows up to 1000
+    integerLimit: 4,
     requireDecimal: false,
 });
 
