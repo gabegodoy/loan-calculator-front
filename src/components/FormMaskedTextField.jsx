@@ -27,6 +27,7 @@ export default function FormMaskedTextField({
                     mask={mask ?? []}
                     onChange={onChange}
                     onBlur={onBlur}
+                    data-testid={name}
                     name={name}
                     value={value}
                     ref={ref}

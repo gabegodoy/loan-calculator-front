@@ -48,6 +48,11 @@ To build the application for production, run:
 yarn build
 ```
 
+### Running Tests
+```
+yarn test
+```
+
 ### Environment API URL
 
 To configure the environment API URL, change the `.env` file in the root of the project:

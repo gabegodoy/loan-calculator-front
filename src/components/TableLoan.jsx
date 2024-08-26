@@ -40,7 +40,7 @@ export default function TableLoan({ data }) {
   ];
 
   return (
-    <Paper>
+    <Paper data-testid="tableLoan">
       <TableContainer sx={{ maxHeight: 650 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -80,7 +80,7 @@ export default function TableLoan({ data }) {
                     hover
                     role="checkbox"
                     tabIndex={-1}
-                    key={row.dataCompetencia}
+                    key={row.date}
                   >
                     {columns.map((column) => {
                       const value = row[column.id];
