@@ -110,7 +110,7 @@ export default function CalculatorPage() {
 
   return (
     <Box
-      sx={{ padding: 2, maxWidth: "1280px", margin: "0 auto", height: "auto" }}
+      sx={{ padding: 2, maxWidth: {lg: "1280px", xs:'100%'}, margin: "0 auto", height: "auto" }}
       component="form"
       onSubmit={handleSubmit(onSubmit)}
     >
@@ -143,7 +143,7 @@ export default function CalculatorPage() {
       </Box>
       <hr style={{ marginBottom: "2rem", opacity: 0.3 }} />
       <Grid container spacing={1} sx={{ marginBottom: 3 }}>
-        <Grid item xs={12} md={2}>
+        <Grid item xs={6} md={2}>
           <FormDatePicker
             name="initialDate"
             label="Data Inicial"
@@ -151,7 +151,7 @@ export default function CalculatorPage() {
             rules={{ required: true }}
           />
         </Grid>
-        <Grid item xs={12} md={2}>
+        <Grid item xs={6} md={2}>
           <FormDatePicker
             name="endDate"
             label="Data Final"
@@ -168,7 +168,7 @@ export default function CalculatorPage() {
             }}
           />
         </Grid>
-        <Grid item xs={12} md={2}>
+        <Grid item xs={6} md={2}>
           <FormDatePicker
             name="firstPaymentDate"
             label="Primeiro Pagamento"
@@ -186,7 +186,7 @@ export default function CalculatorPage() {
             }}
           />
         </Grid>
-        <Grid item xs={12} md={2}>
+        <Grid item xs={6} md={2}>
           <FormMaskedTextField
             mask={moneyMask}
             control={control}
